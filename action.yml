@@ -1,0 +1,15 @@
+name: 'readme-generator'
+description: 'Generate README.md'
+branding:
+  icon: 'star'
+  color: 'gray-dark'
+inputs:
+  github-token:
+    description: 'github token'
+    required: true
+  owner:
+    description: 'owner name'
+    required: true
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
