@@ -30,7 +30,7 @@ jobs:
           git config --local user.email "slattman@gmail.com"
           git config --local user.name "Brad Slattman"
           git add .
-          git commit -m "Add changes"
+          git commit -m "updates"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
