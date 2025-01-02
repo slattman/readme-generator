@@ -21,6 +21,8 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
-    "simple-octokit": "^1.0.0"
+    "simple-git": "^3.27.0",
+    "simple-octokit": "^1.0.0",
+    "node-wget": "^0.4.3"
   }
 }
