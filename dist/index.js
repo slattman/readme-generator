@@ -78217,8 +78217,8 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
     const result = markdown.join("\n\n");
     fs.writeFileSync('./README.md', result);
     const svgs = [
-      { "dest": "./streak.svg", "url": "https://github-readme-streak-stats.herokuapp.com?user=slattman&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" },
-      { "dest": "./stats.svg", "url": "https://github-readme-stats-one-bice.vercel.app/api?username=slattman&theme=react&show_icons=true&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR" },
+      { "dest": "./streak.svg", "url": "https://streak-stats.demolab.com?user=slattman&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" },
+      { "dest": "./stats.svg", "url": "https://github-readme-stats.vercel.app/api?username=slattman&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR" },
       { "dest": "./activity.svg", "url": "https://github-readme-activity-graph.vercel.app/graph?username=slattman&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo" },
       { "dest": "./trophy.svg", "url": "https://github-profile-trophy.vercel.app/?username=slattman&theme=discord&no-frame=true&row=2&column=4" }
     ];
