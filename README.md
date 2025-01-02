@@ -4,13 +4,13 @@ Generate README.md
 
 ## Example Usage
 
-This is workflow example:
+This is a workflow example:
 
 ```yml
 name: "Generate README.md"
 on:
   schedule:
-    - cron: '0 23 * * 0'
+    - cron: '* * 1 * *'
   workflow_dispatch:
     
 jobs:
