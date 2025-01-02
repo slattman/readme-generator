@@ -100,7 +100,7 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
     }
 
     const result = markdown.join("\n\n");
-    fs.writeFileSync('./test.md', result);
+    fs.writeFileSync('./README.md', result);
     const svgs = [
       { "dest": "./streak.svg", "url": "https://github-readme-streak-stats.herokuapp.com?user=slattman&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" },
       { "dest": "./stats.svg", "url": "https://github-readme-stats-one-bice.vercel.app/api?username=slattman&theme=react&show_icons=true&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR" },
