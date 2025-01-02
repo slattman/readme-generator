@@ -12,30 +12,25 @@ on:
   schedule:
     - cron: '* * 1 * *'
   workflow_dispatch:
-    
+
 jobs:
-  generate_awesome_readme_job:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write    
     name: Generate README.md
     steps:
       - name: checkout
-        uses: actions/checkout@v1
-      - name: Generate README.md
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: generate
         uses: slattman/readme-generator@v1.0.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          owner: 'slattman'
-      - name: Commit files
-        run: |
-          git config --local user.email "slattman@gmail.com"
-          git config --local user.name "Brad Slattman"
-          git add .
-          git commit -m "updates"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          github-token: ${{ github.token }}
+          owner: ${{ github.repository_owner }}
+      - name: commit
+        uses: stefanzweifel/git-auto-commit-action@v5
 ```
 
 ## Inputs
