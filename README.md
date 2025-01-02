@@ -25,7 +25,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           owner: 'slattman'
-          group-by: 'language'
       - name: Commit files
         run: |
           git config --local user.email "slattman@gmail.com"
