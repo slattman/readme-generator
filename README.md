@@ -21,7 +21,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v1
       - name: Generate README.md
-        uses: slattman/readme-generator@v1.0
+        uses: slattman/readme-generator@v1.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           owner: 'slattman'
