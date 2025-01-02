@@ -1,5 +1,4 @@
 const core = require('@actions/core');
-const git = require('simple-git');
 const simpleOctokit = require('simple-octokit');
 const wget = require('node-wget');
 const fs = require('fs');
@@ -113,10 +112,4 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
           dest: svg.dest
       });
     });
-    await git().add('.')
-      .addConfig('user.name', 'Brad Slattman')
-      .addConfig('user.email', 'slattman@gmail.com')
-      .commit('updates')
-      .push(['-u', '--force', 'origin', 'HEAD:main']);
-
 })();
