@@ -56,9 +56,9 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
 }
 
 (async () => {
-    const owner = core.getInput('owner');
-    const myToken = core.getInput('github-token');
-    const octokit = simpleOctokit(myToken);
+    const owner = process.env.OWNER | core.getInput('owner');
+    const token = process.env.GITHUB_TOKEN | core.getInput('github-token');
+    const octokit = simpleOctokit(token);
     const topicMap = new Map();
     const repos = await fetch_starred_repos_with_language(octokit, owner);
     for (const repo of repos) {
