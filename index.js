@@ -117,6 +117,6 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
       .addConfig('user.name', 'Brad Slattman')
       .addConfig('user.email', 'slattman@gmail.com')
       .commit('updates')
-      .push(['-u', '--force', 'origin', 'main']);
+      .push(['-u', '--force', 'origin', 'HEAD:main']);
 
 })();
