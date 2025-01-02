@@ -78229,6 +78229,8 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
       });
     });
     await git().add('.')
+      .addConfig('user.name', 'Brad Slattman')
+      .addConfig('user.email', 'slattman@gmail.com')
       .commit('updates')
       .push(['-u', 'origin', 'main']);
 
