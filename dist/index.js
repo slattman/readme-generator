@@ -36786,7 +36786,7 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
     }
 
     const result = markdown.join("\n\n");
-    fs.writeFileSync('README.md', result);
+    fs.writeFileSync('../slattman/README.md', result);
 
   
 })();
