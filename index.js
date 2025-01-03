@@ -4,8 +4,8 @@ import fs from 'fs'
 
 (async () => {
 
-  const test = ""
-  const topicMap = new Map()
+  const test = "/test"
+  const map = new Map()
   const owner = process.env.OWNER
   const token = process.env.GITHUB_TOKEN
   const octokit = simpleOctokit(token)
@@ -26,19 +26,20 @@ import fs from 'fs'
    *
    */
   const init = async () => {
-    upsertMap(topicMap, await getReposStarredByUser(octokit, owner))
-    markdown.push(getTOCMarkdown(topicMap))
-    for (const groupName of sortMapKeys(topicMap)) { markdown.push(getH2Markdown(groupName, topicMap.get(groupName))) }
-    [ { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
+    [
+      { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
       { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
       { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
       { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
     ].map(async (svg) => await wget({url: svg.url, dest: svg.dest}))
+    upsertMap(await getReposStarredByUser(octokit, owner))
+    markdown.push(getTOCMarkdown())
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) }
     fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
   }
 
   /**
-   * Fetches a list of starred repositories by user, filtered by language.
+   * Fetches a list of starred repositories by user.
    *
    * @param {simpleOctokit} octokit - The simpleOctokit instance to use.
    * @param {string} username - The GitHub username to fetch starred repositories for.
@@ -58,7 +59,7 @@ import fs from 'fs'
    * @param {Map<string, any[]>} map - The map.
    * @param {any} repositories - The repositories.
    */
-  const upsertMap = (map, repositories) => {
+  const upsertMap = (repositories) => {
     for (const repository of repositories) {
       let key = repository.language ?? ' '
       if (map.has(key)) {
@@ -75,7 +76,7 @@ import fs from 'fs'
    * @param {Map<string, any>} map - The map to extract keys from.
    * @returns {string[]} An array of sorted keys.
    */
-  const sortMapKeys = (map) => { return Array.from(map.keys()).sort((a, b) => a.localeCompare(b)) }
+  const sortedMapKeys = () => { return Array.from(map.keys()).sort((a, b) => a.localeCompare(b)) }
 
   /**
    * Gets TOC Markdown string.
@@ -83,11 +84,10 @@ import fs from 'fs'
    * @param {Map<string, any>} map - The map to convert.
    * @returns {string} The converted TOC Markdown string.
    */
-  const getTOCMarkdown = (map) => {
-    const sortedKeys = Array.from(sortMapKeys(map))
-    return sortedKeys.map((key) => {
-      return `[${key}](#-${key.toLowerCase().replace(/ /g, '-')})` }
-    ).join(' ✨ ')
+  const getTOCMarkdown = () => {
+    return Array.from(sortedMapKeys(map)).map((key) => { 
+      return `[${key}](#-${key.toLowerCase().replace(/ /g, '-')})`
+    }).join(' ✨ ')
   }
 
   /**
@@ -97,15 +97,15 @@ import fs from 'fs'
    * @param {object[]} groupValue - The value of the group (an array of repositories).
    * @returns {string} The converted H2 Markdown string.
    */
-  const getH2Markdown = (groupKey, groupValue) => {
-    const groupName = groupKey.replace(/ /g, '-')
+  const getH2Markdown = (language) => {
+    const repos = map.get(language)
+    language = language.replace(/ /g, '-')
     return [
-      `## ✨ ${groupName}\n`,
-      ...groupValue.map((repo) => {
-        return `- [${repo.name}](${repo.html_url}) - ${repo.description}`
-      })
+      `## ✨ ${language}\n`,
+      repos.map((repo) => { return `- [${repo.name}](${repo.html_url}) - ${repo.description}` })
     ].join('\n')
   }
 
   init()
+
 })()
