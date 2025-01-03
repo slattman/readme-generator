@@ -15,6 +15,10 @@ jobs:
         uses: TriPSs/conventional-changelog-action@latest
         with:
           github-token: ${{ github.token }}
+      - name: delete release
+        uses: liudonghua123/delete-release-action@v1
+        with:
+          release_name: 'latest'          
       - name: create release
         uses: actions/create-release@latest
         env:
