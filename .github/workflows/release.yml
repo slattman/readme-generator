@@ -16,7 +16,6 @@ jobs:
           github-token: ${{ github.token }}
       - name: create release
         uses: actions/create-release@latest
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
