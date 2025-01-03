@@ -45002,7 +45002,7 @@ const getH2Markdown = (groupKey, groupValue) => {
   const owner = process.env.OWNER
   const token = process.env.GITHUB_TOKEN
   const octokit = simple_octokit__WEBPACK_IMPORTED_MODULE_0___default()(token)
-  const starsContent = [`
+  const markdown = [`
   <div align="center">  
   <img width="47%" src="stats.svg" />
   &nbsp;
@@ -45015,15 +45015,15 @@ const getH2Markdown = (groupKey, groupValue) => {
   \n\n`]
 
   upsertMap(topicMap, await getReposStarredByUser(octokit, owner))
-  starsContent.push(getTocMarkdown(topicMap))
-  for (const groupName of sortMapKeys(topicMap)) { starsContent.push(getH2Markdown(groupName, topicMap.get(groupName))) }
+  markdown.push(getTocMarkdown(topicMap))
+  for (const groupName of sortMapKeys(topicMap)) { markdown.push(getH2Markdown(groupName, topicMap.get(groupName))) }
   [
     { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
     { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
     { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
     { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
   ].map(async (svg) => await node_wget__WEBPACK_IMPORTED_MODULE_1___default()({url: svg.url, dest: svg.dest}))
-  fs__WEBPACK_IMPORTED_MODULE_2___default().writeFileSync(`.${test}/README.md`, starsContent.join('\n\n'))
+  fs__WEBPACK_IMPORTED_MODULE_2___default().writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
   console.log('README.md generated successfully!')
 })();
 })();
