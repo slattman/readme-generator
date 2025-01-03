@@ -32,14 +32,3 @@ jobs:
       - name: commit
         uses: stefanzweifel/git-auto-commit-action@v5
 ```
-
-## Inputs
-
-```
-github-token:
-  description: 'github token'
-  required: true
-owner:
-  description: 'github username'
-  required: true
-```
