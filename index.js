@@ -91,7 +91,6 @@ const convertGroupToH2Markdown = (groupKey, groupValue) => {
   upsertMap(topicMap, repositories)
   const sortedGroupNames = sortMapKeys(topicMap)
   const starsContent = [`
-  <hr />
   <div align="center">  
   <img width="47%" src="stats.svg" />
   &nbsp;
