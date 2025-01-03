@@ -22,7 +22,7 @@ jobs:
             const { owner, repo } = context.repo
             const { data: { id } } = await github.rest.repos.getLatestRelease({ owner, repo })
             await github.rest.repos.deleteRelease({ owner, repo, release_id: id })
-            await exec.exec('git push --delete origin :refs/tags/latest');
+            await exec.exec('git', ['push', '--delete', 'origin', ':refs/tags/latest']);
       - uses: actions/create-release@latest
         name: create release
         env:
