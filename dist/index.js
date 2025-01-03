@@ -44997,7 +44997,6 @@ const getH2Markdown = (groupKey, groupValue) => {
  * Main entry point for generating README.md
  */
 (async () => {
-
   const test = ''
   const topicMap = new Map()
   const owner = process.env.OWNER
@@ -45026,9 +45025,7 @@ const getH2Markdown = (groupKey, groupValue) => {
   ].map(async (svg) => await node_wget__WEBPACK_IMPORTED_MODULE_1___default()({url: svg.url, dest: svg.dest}))
   fs__WEBPACK_IMPORTED_MODULE_2___default().writeFileSync(`.${test}/README.md`, starsContent.join('\n\n'))
   console.log('README.md generated successfully!')
-
 })();
-
 })();
 
 module.exports = __webpack_exports__;

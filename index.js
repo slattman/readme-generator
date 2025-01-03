@@ -80,7 +80,6 @@ const getH2Markdown = (groupKey, groupValue) => {
  * Main entry point for generating README.md
  */
 (async () => {
-
   const test = ''
   const topicMap = new Map()
   const owner = process.env.OWNER
@@ -109,5 +108,4 @@ const getH2Markdown = (groupKey, groupValue) => {
   ].map(async (svg) => await wget({url: svg.url, dest: svg.dest}))
   fs.writeFileSync(`.${test}/README.md`, starsContent.join('\n\n'))
   console.log('README.md generated successfully!')
-
 })();
