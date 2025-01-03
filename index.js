@@ -27,7 +27,7 @@ import fs from 'fs'
     await getSVGs()
     await updateMap()
     markdown.push(getTOCMarkdown())
-    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<sup>made with ❤️‍🔥</sup>')
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<br /><sup>made with ❤️‍🔥</sup>')
     fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
     console.log("...done")
   }
