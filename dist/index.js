@@ -71950,129 +71950,187 @@ module.exports = /*#__PURE__*/JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-const core = __nccwpck_require__(8860);
-const simpleOctokit = __nccwpck_require__(8086);
-const wget = __nccwpck_require__(2689);
-const fs = __nccwpck_require__(9896);
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+(() => {
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(8860);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var simple_octokit__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(8086);
+/* harmony import */ var simple_octokit__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(simple_octokit__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var node_wget__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2689);
+/* harmony import */ var node_wget__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(node_wget__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(9896);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_3__);
 
-const fetch_starred_repos_with_language = async (octokit, username) => {
-  let result = [];
+
+
+
+
+/**
+ * Fetches a list of starred repositories by user, filtered by language.
+ *
+ * @param {simpleOctokit} octokit - The simpleOctokit instance to use.
+ * @param {string} username - The GitHub username to fetch starred repositories for.
+ * @returns {Promise<string[]>} A promise resolving to an array of repository names.
+ */
+const fetchStarredReposWithLanguage = async (octokit, username) => {
+  let result = []
   for await (const response of octokit.activity.listReposStarredByUser.all({ username })) {
     for (const repository of response.data) {
-      result.push(repository);
+      result.push(repository)
     }
   }
-  return result;
-};
-
-const upsert = (map, key, value) => {
-  if (map.has(key)) {
-    let obj = map.get(key);
-    obj.push(value);
-    map.set(key, obj);
-  } else {
-    map.set(key, [value]);
-  }
-};
-
-const sorted_map_keys = (map) => {
-  let keys = [];
-  for (const key of map.keys()) {
-    keys.push(key);
-  }
-  return keys.sort((a, b) => { 
-    if (a > b) return 1;
-    if (a < b) return -1;
-    return 0;
-  });
+  return result
 }
 
-const convert_maps_to_toc_markdown = (map) => {
-  let sorted_keys = sorted_map_keys(map);
-  let toc = [''];
-  for (const key of sorted_keys) {
-    const group_name = `${key}`.replace(/ /g, '-');
-    const group = `[${key}](#${group_name})`;
-    toc.push(group);
+/**
+ * Upserts the map.
+ *
+ * @param {Map<string, any[]>} map - The map.
+ * @param {any} repositories - The repositories.
+ */
+const upsertMap = (map, repositories) => {
+  for (const repository of repositories) {
+    let key = repository.language ?? ' '
+    if (map.has(key)) {
+      const existingArray = map.get(key)
+      existingArray.push(repository)
+      map.set(key, existingArray)
+    } else {
+      map.set(key, [repository])
+    }      
   }
-  return toc.join(' ✨ ');
 };
 
-const convert_group_to_h2_markdown = (group_key, group_value) => {
-  const group_name = `${group_key}`.replace(/ /g, '-');
-  let toc = [`## ✨ ${group_name}\n`];
-  for (const repo of group_value) {
-    const group = `- [${repo.name}](${repo.html_url}) - ${repo.description}`;
-    toc.push(group);
-  }
-  return toc.join('\n');
+/**
+ * Returns an array of sorted keys from a map.
+ *
+ * @param {Map<string, any>} map - The map to extract keys from.
+ * @returns {string[]} An array of sorted keys.
+ */
+const sortMapKeys = (map) => { return Array.from(map.keys()).sort((a, b) => a.localeCompare(b)) }
+
+/**
+ * Converts a map to a TOC Markdown string.
+ *
+ * @param {Map<string, any>} map - The map to convert.
+ * @returns {string} The converted TOC Markdown string.
+ */
+const convertMapsToTocMarkdown = (map) => {
+  const sortedKeys = Array.from(sortMapKeys(map))
+  return sortedKeys.map((key) => {
+    return `[${key}](#${key.toLowerCase().replace(/ /g, '-')})`
+  }).join(' ✨ ')
 }
 
+/**
+ * Converts a group to an H2 Markdown string.
+ *
+ * @param {string} groupKey - The key of the group.
+ * @param {object[]} groupValue - The value of the group (an array of repositories).
+ * @returns {string} The converted H2 Markdown string.
+ */
+const convertGroupToH2Markdown = (groupKey, groupValue) => {
+  const groupName = groupKey.replace(/ /g, '-')
+  return [
+    `## ✨ ${groupName}\n`,
+    ...groupValue.map((repo) => {
+      return `- [${repo.name}](${repo.html_url}) - ${repo.description}`;
+    }),
+  ].join('\n')
+}
+
+/**
+ * Main entry point for generating README.md
+ */
 (async () => {
 
-  const owner = process.env.OWNER || core.getInput('owner');
-  const token = process.env.GITHUB_TOKEN || core.getInput('github-token');
-  const octokit = simpleOctokit(token);
-  const topic = new Map();
-  const repos = await fetch_starred_repos_with_language(octokit, owner);
-  for (const repo of repos) {
-    if (repo.language) {
-      upsert(topic, repo.language, repo);
-    } else {
-      upsert(topic, 'etc', repo);
-    }
-  }
-  
-  let markdown = [`
-  <div>
-  <img width="48%" src="stats.svg" />
-  <img width="51%" src="streak.svg" />
+  const test = ''
+  const topicMap = new Map()
+  const owner = process.env.OWNER || _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('owner')
+  const token = process.env.GITHUB_TOKEN || _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('github-token')
+  const octokit = simple_octokit__WEBPACK_IMPORTED_MODULE_1___default()(token)
+  const repositories = await fetchStarredReposWithLanguage(octokit, owner)
+  upsertMap(topicMap, repositories)
+  const sortedGroupNames = sortMapKeys(topicMap)
+  const starsContent = [`
+  <hr />
+  <div align="center">  
+  <img width="47%" src="stats.svg" />
+  &nbsp;
+  <img width="50%" src="streak.svg" />
   <img width="57%" src="activity.svg" >
+  &nbsp;
   <img width="40%" src="trophy.svg" />
   </div>
   <hr />
-  \n\n`];
+  \n\n`]
 
-  const toc = convert_maps_to_toc_markdown(topic);
-  markdown.push(toc);
-
-  const sorted_keys = sorted_map_keys(topic);
-  for (const group_name of sorted_keys) {
-    if (group_name == 'etc') { continue; }
-    const group_value = topic.get(group_name);
-    const group = convert_group_to_h2_markdown(group_name, group_value);
-    markdown.push(group);
+  starsContent.push(convertMapsToTocMarkdown(topicMap))
+  for (const groupName of sortedGroupNames) {
+    const groupMarkdown = convertGroupToH2Markdown(groupName, topicMap.get(groupName))
+    starsContent.push(groupMarkdown)
   }
 
-  if (topic.has('etc')) {
-    const group_name = 'etc';
-    const group_value = topic.get(group_name);
-    const group = convert_group_to_h2_markdown(group_name, group_value);
-    markdown.push(group);
-  }
+  [
+    { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
+    { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
+    { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
+    { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
+  ].map(async (svg) => await node_wget__WEBPACK_IMPORTED_MODULE_2___default()({url: svg.url, dest: svg.dest}))
 
-  const result = markdown.join("\n\n");
+  fs__WEBPACK_IMPORTED_MODULE_3___default().writeFileSync(`.${test}/README.md`, starsContent.join('\n\n'))
 
-  fs.writeFileSync('./README.md', result);
+  console.log('README.md generated successfully!')
 
-  const svgs = [
-    { "dest": "./stats.svg", "url": `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
-    { "dest": "./streak.svg", "url": `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
-    { "dest": "./activity.svg", "url": `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
-    { "dest": "./trophy.svg", "url": `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
-  ];
-  svgs.map(async (svg) => {
-    await wget({
-        url: svg.url,
-        dest: svg.dest
-    });
-  });
+})();
 
 })();
 
