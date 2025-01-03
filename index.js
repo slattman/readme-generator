@@ -4,7 +4,7 @@ import fs from 'fs'
 
 (async () => {
 
-  const test = "/test"
+  const test = ""
   const map = new Map()
   const owner = process.env.OWNER
   const token = process.env.GITHUB_TOKEN
