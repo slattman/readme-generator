@@ -20,8 +20,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          draft: false
-          prerelease: false
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
+          tag_name: latest
+          release_name: latest
           body: ${{ steps.changelog.outputs.clean_changelog }}
