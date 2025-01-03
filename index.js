@@ -86,7 +86,7 @@ import fs from 'fs'
    */
   const getTOCMarkdown = () => {
     return Array.from(sortedMapKeys(map)).map((key) => {
-      return `[${key}](#-${key.toLowerCase().replace(/ /g, '-')})`
+      return `[${key}](#--${key.toLowerCase().replace(/ /g, '-')})`
     }).join(' ✨ ')
   }
 

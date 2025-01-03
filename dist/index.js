@@ -44807,7 +44807,7 @@ var __webpack_exports__ = {};
    */
   const getTOCMarkdown = () => {
     return Array.from(sortedMapKeys(map)).map((key) => {
-      return `[${key}](#-${key.toLowerCase().replace(/ /g, '-')})`
+      return `[${key}](#--${key.toLowerCase().replace(/ /g, '-')})`
     }).join(' ✨ ')
   }
 
