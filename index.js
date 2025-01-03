@@ -1,6 +1,6 @@
-import simpleOctokit from 'simple-octokit';
-import wget from 'node-wget';
-import fs from 'fs';
+import simpleOctokit from 'simple-octokit'
+import wget from 'node-wget'
+import fs from 'fs'
 
 /**
  * Fetches a list of starred repositories by user, filtered by language.
@@ -71,7 +71,7 @@ const getH2Markdown = (groupKey, groupValue) => {
   return [
     `## ✨ ${groupName}\n`,
     ...groupValue.map((repo) => {
-      return `- [${repo.name}](${repo.html_url}) - ${repo.description}`;
+      return `- [${repo.name}](${repo.html_url}) - ${repo.description}`
     }),
   ].join('\n')
 }

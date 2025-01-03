@@ -44988,7 +44988,7 @@ const getH2Markdown = (groupKey, groupValue) => {
   return [
     `## ✨ ${groupName}\n`,
     ...groupValue.map((repo) => {
-      return `- [${repo.name}](${repo.html_url}) - ${repo.description}`;
+      return `- [${repo.name}](${repo.html_url}) - ${repo.description}`
     }),
   ].join('\n')
 }
