@@ -1,4 +1,3 @@
-import * as core from '@actions/core';
 import simpleOctokit from 'simple-octokit';
 import wget from 'node-wget';
 import fs from 'fs';
@@ -84,8 +83,8 @@ const convertGroupToH2Markdown = (groupKey, groupValue) => {
 
   const test = ''
   const topicMap = new Map()
-  const owner = process.env.OWNER || core.getInput('owner')
-  const token = process.env.GITHUB_TOKEN || core.getInput('github-token')
+  const owner = process.env.OWNER
+  const token = process.env.GITHUB_TOKEN
   const octokit = simpleOctokit(token)
   const repositories = await fetchStarredReposWithLanguage(octokit, owner)
   upsertMap(topicMap, repositories)
