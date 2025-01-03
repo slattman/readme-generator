@@ -63,9 +63,9 @@ import fs from 'fs'
     for (const repository of repositories) {
       const key = repository.language ?? ' '
       if (map.has(key)) {
-        const existingArray = map.get(key)
-        existingArray.push(repository)
-        map.set(key, existingArray)
+        const obj = map.get(key)
+        obj.push(repository)
+        map.set(key, obj)
       } else map.set(key, [repository])
     }
   }
@@ -99,7 +99,7 @@ import fs from 'fs'
    */
   const getH2Markdown = (language) => {
     const repos = map.get(language)
-    language = language.replace(/ /g, '-')
+    language = language.replace(/ /g, '-') && ((test.length) && console.log(repos))
     return [
       `## ✨ ${language}\n`,
       repos.map((repo) => { return `- [${repo.name}](${repo.html_url}) - ${repo.description}` })
