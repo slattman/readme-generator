@@ -10,17 +10,21 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4.2.2
-      - name: conventional Changelog Action
+      - uses: TriPSs/conventional-changelog-action@latest
+        name: conventional Changelog Action
         id: changelog
-        uses: TriPSs/conventional-changelog-action@latest
         with:
           github-token: ${{ github.token }}
-      - name: delete release
-        uses: liudonghua123/delete-release-action@v1
+      - uses: actions/github-script@v4
         with:
-          release_name: 'latest'          
-      - name: create release
-        uses: actions/create-release@latest
+          github-token: ${{ github.token }}
+          script: |
+            const { owner, repo } = context.repo
+            const { data: { id } } = await github.repos.getLatestRelease({ owner, repo })
+            await github.repos.deleteRelease({ owner, repo, release_id: id })
+            await github.repos.deleteReference({ owner, repo, 'tag/latest' })
+      - uses: actions/create-release@latest
+        name: create release
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
