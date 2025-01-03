@@ -40,7 +40,7 @@ import fs from 'fs'
       { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
       { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
       { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
-    ].map(async (svg) => { if (!test.length) await wget({url: svg.url, dest: svg.dest}) })    
+    ].map(async (svg) => { if (test !== '/test') await wget({url: svg.url, dest: svg.dest}) })    
   }
 
   /** Update the map. */
@@ -66,7 +66,7 @@ import fs from 'fs'
     let result = []
     for await (const res of octokit.activity.listReposStarredByUser.all({ username })) {
       for (const repo of res.data) { result.push(repo) }
-    } //if (test.length) { console.log(result) }
+    } //if (test === "/test") { console.log(result) }
     return result
   }
 
