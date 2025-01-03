@@ -44822,8 +44822,9 @@ var __webpack_exports__ = {};
     const repos = map.get(language)
     language = language.replace(/ /g, '-')
     return [
-      `## ✨ ${language}  <div style="float: right">[🔝](#--)</div> \n`,
-      repos.map((repo) => { return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *last updated on ${new Date(repo.updated_at).toDateString()}*` })
+      `## ✨ ${language}\n`,
+      repos.map((repo) => { return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *last updated on ${new Date(repo.updated_at).toDateString()}*` }),
+      `# [🔝](#--) \n`
     ].join('').replace(/,\n/g, '\n')
   }
 
