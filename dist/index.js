@@ -44820,7 +44820,7 @@ var __webpack_exports__ = {};
    */
   const getH2Markdown = (language) => {
     const repos = map.get(language)
-    language = language.replace(/ /g, '-') && ((test.length) && console.log(repos))
+    language = language.replace(/ /g, '-')
     return [
       `## ✨ ${language}\n`,
       repos.map((repo) => { return `- [${repo.name}](${repo.html_url}) - ${repo.description}` })
