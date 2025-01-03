@@ -45013,7 +45013,6 @@ const getH2Markdown = (groupKey, groupValue) => {
   </div>
   <hr />
   \n\n`]
-
   upsertMap(topicMap, await getReposStarredByUser(octokit, owner))
   markdown.push(getTocMarkdown(topicMap))
   for (const groupName of sortMapKeys(topicMap)) { markdown.push(getH2Markdown(groupName, topicMap.get(groupName))) }
@@ -45026,6 +45025,7 @@ const getH2Markdown = (groupKey, groupValue) => {
   fs__WEBPACK_IMPORTED_MODULE_2___default().writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
   console.log('README.md generated successfully!')
 })();
+
 })();
 
 module.exports = __webpack_exports__;

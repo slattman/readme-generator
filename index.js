@@ -96,7 +96,6 @@ const getH2Markdown = (groupKey, groupValue) => {
   </div>
   <hr />
   \n\n`]
-
   upsertMap(topicMap, await getReposStarredByUser(octokit, owner))
   markdown.push(getTocMarkdown(topicMap))
   for (const groupName of sortMapKeys(topicMap)) { markdown.push(getH2Markdown(groupName, topicMap.get(groupName))) }
