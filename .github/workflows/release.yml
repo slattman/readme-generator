@@ -1,0 +1,28 @@
+name: Automated Releases
+
+on:
+  workflow_dispatch:
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@latest
+        with:
+          github-token: ${{ github.token }}
+          output-file: 'false'
+
+      - name: create release
+        uses: actions/create-release@latest
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
