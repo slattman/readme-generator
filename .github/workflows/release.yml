@@ -39,4 +39,4 @@ jobs:
           owner: slattman
           ref: main
           workflow: default.yml
-          token: ${{ github.token }}
+          token: ${{ secrets.DISPATCH_TOKEN }}
