@@ -19,6 +19,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
+          draft: false
+          prerelease: false
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
