@@ -15,13 +15,13 @@ jobs:
         id: changelog
         with:
           github-token: ${{ github.token }}
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v4
         with:
           github-token: ${{ github.token }}
           script: |
             const { owner, repo } = context.repo
-            const { data: { id } } = await github.repos.getLatestRelease({ owner, repo })
-            await github.repos.deleteRelease({ owner, repo, release_id: id })
+            await exec.exec('gh', ['release', 'delete', 'latest']);
+            await exec.exec('git', ['push', '--delete', 'origin', ':refs/tags/latest']);
       - uses: actions/create-release@latest
         name: create release
         env:
