@@ -102,7 +102,7 @@ import fs from 'fs'
     language = language.replace(/ /g, '-')
     return [
       `## ✨ ${language}\n`,
-      repos.map((repo) => { return `- [${repo.name}](${repo.html_url}) - ${repo.description}` })
+      repos.map((repo) => { return `- [${repo.name}](${repo.html_url}) - ${repo.description}\n` })
     ].join('\n')
   }
 
