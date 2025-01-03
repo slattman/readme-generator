@@ -28,7 +28,7 @@ import fs from 'fs'
     await getSVGs()
     await updateMap()
     markdown.push(getTOCMarkdown())
-    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) }
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<sup>made with ❤️‍🔥</sup>')
     fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
   }
 
@@ -103,7 +103,7 @@ import fs from 'fs'
     return [
       `## [✨](#to-the-top) ${language}\n`,
       repos.map((repo) => {
-        return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *[${repo.topics.map((topic) => { return ' ' + topic })} ]* - *last updated on ${new Date(repo.updated_at).toDateString()}*`
+        return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *[${repo.topics.map((topic) => { return ' [' + topic + '](https://github.com/topics/' + topic + ')' })} ]* - *last updated on ${new Date(repo.updated_at).toDateString()}*`
       })
     ].join('').replace(/,\n/g, '\n')
   }

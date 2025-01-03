@@ -44749,7 +44749,7 @@ var __webpack_exports__ = {};
     await getSVGs()
     await updateMap()
     markdown.push(getTOCMarkdown())
-    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) }
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<sup>made with ❤️‍🔥</sup>')
     fs__WEBPACK_IMPORTED_MODULE_2__.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
   }
 
@@ -44824,7 +44824,7 @@ var __webpack_exports__ = {};
     return [
       `## [✨](#to-the-top) ${language}\n`,
       repos.map((repo) => {
-        return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *[${repo.topics.map((topic) => { return ' ' + topic })} ]* - *last updated on ${new Date(repo.updated_at).toDateString()}*`
+        return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *[${repo.topics.map((topic) => { return ' [' + topic + '](https://github.com/topics/' + topic + ')' })} ]* - *last updated on ${new Date(repo.updated_at).toDateString()}*`
       })
     ].join('').replace(/,\n/g, '\n')
   }
