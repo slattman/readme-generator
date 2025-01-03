@@ -30,7 +30,7 @@ jobs:
           tag_name: latest
           release_name: latest
           body: ${{ steps.changelog.outputs.clean_changelog }}
-      - uses: lasith-kg/dispatch-workflow@v1
+      - uses: lasith-kg/dispatch-workflow@v2
         id: workflow-dispatch
         name: 'dispatch workflow'
         with:
