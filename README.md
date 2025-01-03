@@ -26,9 +26,9 @@ jobs:
           ref: ${{ github.head_ref }}
       - name: generate
         uses: slattman/readme-generator@v1.0.0
-        with:
-          github-token: ${{ github.token }}
-          owner: ${{ github.repository_owner }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
       - name: commit
         uses: stefanzweifel/git-auto-commit-action@v5
 ```
