@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
       - uses: TriPSs/conventional-changelog-action@latest
-        name: conventional Changelog Action
+        name: Conventional Changelog Action
         id: changelog
         with:
           github-token: ${{ github.token }}
@@ -23,7 +23,7 @@ jobs:
             const { owner, repo } = context.repo
             await exec.exec('gh', ['release', 'delete', 'latest', '--cleanup-tag', '--yes']).catch((e) => console.log)
       - uses: actions/create-release@latest
-        name: create release
+        name: Create release
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -32,7 +32,7 @@ jobs:
           body: ${{ steps.changelog.outputs.clean_changelog }}
       - uses: lasith-kg/dispatch-workflow@v2
         id: workflow-dispatch
-        name: 'dispatch workflow'
+        name: 'Dispatch workflow'
         with:
           dispatch-method: workflow_dispatch
           repo: slattman
