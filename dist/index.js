@@ -44972,7 +44972,7 @@ const sortMapKeys = (map) => { return Array.from(map.keys()).sort((a, b) => a.lo
 const getTocMarkdown = (map) => {
   const sortedKeys = Array.from(sortMapKeys(map))
   return sortedKeys.map((key) => {
-    return `[${key}](#${key.toLowerCase().replace(/ /g, '-')})`
+    return `[${key}](#-${key.toLowerCase().replace(/ /g, '-')})`
   }).join(' ✨ ')
 }
 
