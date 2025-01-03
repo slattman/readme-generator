@@ -19,8 +19,6 @@
   },
   "homepage": "https://github.com/slattman/readme-generator#readme",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0",
     "simple-octokit": "^1.0.0",
     "node-wget": "^0.4.3"
   }
