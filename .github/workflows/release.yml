@@ -24,4 +24,4 @@ jobs:
           prerelease: false
           tag_name: v1.0.0
           release_name: v1.0.0
-          body: ${{ steps.changelog.outputs.clean_changelog }}
+          body: ''
