@@ -7,7 +7,7 @@ jobs:
   changelog:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  
+      contents: write
     steps:
       - uses: actions/checkout@v4.2.2
       - name: conventional Changelog Action
@@ -22,5 +22,6 @@ jobs:
         with:
           draft: false
           prerelease: false
-          tag_name: v1.0.0
-          release_name: v1.0.0
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
