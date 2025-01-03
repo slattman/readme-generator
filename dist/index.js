@@ -44725,7 +44725,7 @@ var __webpack_exports__ = {};
 
 (async () => {
 
-  const test = "/test"
+  const test = ""
   const map = new Map()
   const owner = process.env.OWNER
   const token = process.env.GITHUB_TOKEN
@@ -44782,7 +44782,7 @@ var __webpack_exports__ = {};
    */
   const upsertMap = (repositories) => {
     for (const repository of repositories) {
-      let key = repository.language ?? ' '
+      const key = repository.language ?? ' '
       if (map.has(key)) {
         const existingArray = map.get(key)
         existingArray.push(repository)

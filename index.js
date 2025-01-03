@@ -61,7 +61,7 @@ import fs from 'fs'
    */
   const upsertMap = (repositories) => {
     for (const repository of repositories) {
-      let key = repository.language ?? ' '
+      const key = repository.language ?? ' '
       if (map.has(key)) {
         const existingArray = map.get(key)
         existingArray.push(repository)
