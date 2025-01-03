@@ -23,7 +23,7 @@ jobs:
           script: |
             const { owner, repo } = context.repo
             await exec.exec('gh', ['release', 'delete', 'latest']).catch((e) => console.log)
-            await exec.exec('gh', ['tag', '-d', ':refs/tags/latest']).catch((e) => console.log)
+            await exec.exec('git', ['tag', '-d', 'latest']).catch((e) => console.log)
       - uses: actions/create-release@latest
         name: create release
         env:
