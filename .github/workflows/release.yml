@@ -1,7 +1,6 @@
 name: Automated Releases
 
-on:
-  workflow_dispatch:
+on: push
 
 jobs:
   changelog:
