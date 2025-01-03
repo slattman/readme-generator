@@ -9,7 +9,7 @@ import fs from 'fs';
  * @param {string} username - The GitHub username to fetch starred repositories for.
  * @returns {Promise<string[]>} A promise resolving to an array of repository names.
  */
-const fetchStarredReposWithLanguage = async (octokit, username) => {
+const getReposStarredByUser = async (octokit, username) => {
   let result = []
   for await (const response of octokit.activity.listReposStarredByUser.all({ username })) {
     for (const repository of response.data) {
@@ -47,12 +47,12 @@ const upsertMap = (map, repositories) => {
 const sortMapKeys = (map) => { return Array.from(map.keys()).sort((a, b) => a.localeCompare(b)) }
 
 /**
- * Converts a map to a TOC Markdown string.
+ * Gets TOC Markdown string.
  *
  * @param {Map<string, any>} map - The map to convert.
  * @returns {string} The converted TOC Markdown string.
  */
-const convertMapsToTocMarkdown = (map) => {
+const getTocMarkdown = (map) => {
   const sortedKeys = Array.from(sortMapKeys(map))
   return sortedKeys.map((key) => {
     return `[${key}](#${key.toLowerCase().replace(/ /g, '-')})`
@@ -60,13 +60,13 @@ const convertMapsToTocMarkdown = (map) => {
 }
 
 /**
- * Converts a group to an H2 Markdown string.
+ * Gets H2 Markdown string.
  *
  * @param {string} groupKey - The key of the group.
  * @param {object[]} groupValue - The value of the group (an array of repositories).
  * @returns {string} The converted H2 Markdown string.
  */
-const convertGroupToH2Markdown = (groupKey, groupValue) => {
+const getH2Markdown = (groupKey, groupValue) => {
   const groupName = groupKey.replace(/ /g, '-')
   return [
     `## ✨ ${groupName}\n`,
@@ -98,9 +98,9 @@ const convertGroupToH2Markdown = (groupKey, groupValue) => {
   <hr />
   \n\n`]
 
-  upsertMap(topicMap, await fetchStarredReposWithLanguage(octokit, owner))
-  starsContent.push(convertMapsToTocMarkdown(topicMap))
-  for (const groupName of sortMapKeys(topicMap)) { starsContent.push(convertGroupToH2Markdown(groupName, topicMap.get(groupName))) }
+  upsertMap(topicMap, await getReposStarredByUser(octokit, owner))
+  starsContent.push(getTocMarkdown(topicMap))
+  for (const groupName of sortMapKeys(topicMap)) { starsContent.push(getH2Markdown(groupName, topicMap.get(groupName))) }
   [
     { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
     { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
