@@ -44752,7 +44752,7 @@ var __webpack_exports__ = {};
       { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
       { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
       { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
-    ].map(async (svg) => await node_wget__WEBPACK_IMPORTED_MODULE_1__({url: svg.url, dest: svg.dest}))
+    ].map(async (svg) => { if (!test.length) await node_wget__WEBPACK_IMPORTED_MODULE_1__({url: svg.url, dest: svg.dest}) })
     upsertMap(await getReposStarredByUser(octokit, owner))
     markdown.push(getTOCMarkdown())
     for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) }
@@ -44823,8 +44823,8 @@ var __webpack_exports__ = {};
     language = language.replace(/ /g, '-')
     return [
       `## ✨ ${language}\n`,
-      repos.map((repo) => { return `\n- [${repo.name}](${repo.html_url}) - ${repo.description}` })
-    ].join('\n')
+      repos.map((repo) => { return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - <small>last updated on ${new Date(repo.updated_at).toDateString()}</small>` })
+    ].join('').replace(/,\n/g, '\n')
   }
 
   init()
