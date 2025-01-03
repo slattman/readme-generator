@@ -9,8 +9,7 @@ import fs from 'fs'
   const owner = process.env.OWNER
   const token = process.env.GITHUB_TOKEN
   const octokit = simpleOctokit(token)
-  const markdown = [`
-  <div id="to-the-top" align="center">
+  const markdown = [`<div id="to-the-top" align="center">
   <img width="47%" src="stats.svg" />
   &nbsp;
   <img width="50%" src="streak.svg" />
@@ -103,7 +102,7 @@ import fs from 'fs'
     return [
       `## ✨ ${language}\n`,
       repos.map((repo) => { return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *last updated on ${new Date(repo.updated_at).toDateString()}*` }),
-      `\n <br /><br /><sub style="float: right">[back to the top 💫](#to-the-top)</sub> \n`
+      `\n <br /><br /><sub style="float: right">[to the top 💫](#to-the-top)</sub> \n`
     ].join('').replace(/,\n/g, '\n')
   }
 
