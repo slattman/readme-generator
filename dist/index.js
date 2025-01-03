@@ -72031,8 +72031,8 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
   
   let markdown = [`
   <div>
-  <img width="49%" src="streak.svg" />
-  <img width="49%" src="stats.svg" />
+  <img width="48%" src="stats.svg" />
+  <img width="51%" src="streak.svg" />
   <img width="57%" src="activity.svg" >
   <img width="40%" src="trophy.svg" />
   </div>
@@ -72062,8 +72062,8 @@ const convert_group_to_h2_markdown = (group_key, group_value) => {
   fs.writeFileSync('./README.md', result);
 
   const svgs = [
-    { "dest": "./streak.svg", "url": `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
     { "dest": "./stats.svg", "url": `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
+    { "dest": "./streak.svg", "url": `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
     { "dest": "./activity.svg", "url": `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
     { "dest": "./trophy.svg", "url": `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
   ];
