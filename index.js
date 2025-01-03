@@ -1,30 +1,24 @@
 import simpleOctokit from 'simple-octokit'
-import wget from 'node-wget'
-import fs from 'fs'
+import * as spawn from 'child_process'
+import * as fs from 'node:fs'
 (async () => {
 
   const map = new Map()
   const octokit = simpleOctokit(process.env.GITHUB_TOKEN)
   const owner = process.env.OWNER
   const test = process.env.TEST
-  const markdown = [`
-  <div id="to-the-top" align="center">
-  <img width="47%" src="stats.svg" />
+  const markdown = [`<div id="to-the-top" align="center"><img width="47%" src="stats.svg" />
   &nbsp;
-  <img width="50%" src="streak.svg" />
-  <img width="57%" src="activity.svg" >
+  <img width="50%" src="streak.svg" /><img width="57%" src="activity.svg" >
   &nbsp;
-  <img width="40%" src="trophy.svg" />
-  </div>
-  <hr />
-  \n\n`]
+  <img width="40%" src="trophies.svg" /></div><hr />\n\n`]
 
   /**
    * Initialize
    *
    */
   const init = async () => {
-    await getSVGs()
+    await updateSvg()
     await updateMap()
     markdown.push(getTOCMarkdown())
     for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<br /><sup>made with ❤️‍🔥</sup>')
@@ -35,12 +29,18 @@ import fs from 'fs'
   /**
    * Get SVGs
    */
-  const getSVGs = async () => {
-    [ { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
-      { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
-      { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
-      { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
-    ].map(async (svg) => { if (!test.length) await wget({url: svg.url, dest: svg.dest}) })    
+  const updateSvg = async () => {
+    [ { name: `stats`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
+      { name: `streak`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true` },
+      { name: `activity`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
+      { name: `trophies`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
+    ].map(async (svg) => {
+      if (!test.length) {
+        await spawn.execSync(`curl -so ${svg.name}.svg.new "${svg.url}"`)
+        if (await fs.readFileSync(`${svg.name}.svg.new`).length) await spawn.execSync(`mv ${svg.name}.svg.new ${svg.name}.svg`)
+        if (await fs.existsSync(`${svg.name}.svg.new`)) await spawn.execSync(`rm ${svg.name}.svg.new`)
+      }
+    })
   }
 
   /** Update the map. */
