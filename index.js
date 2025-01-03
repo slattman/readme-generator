@@ -1,7 +1,6 @@
 import simpleOctokit from 'simple-octokit'
 import wget from 'node-wget'
 import fs from 'fs'
-
 (async () => {
 
   const map = new Map()
@@ -30,6 +29,7 @@ import fs from 'fs'
     markdown.push(getTOCMarkdown())
     for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<sup>made with ❤️‍🔥</sup>')
     fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
+    console.log("...done")
   }
 
   /**
