@@ -30,3 +30,13 @@ jobs:
           tag_name: latest
           release_name: latest
           body: ${{ steps.changelog.outputs.clean_changelog }}
+      - uses: lasith-kg/dispatch-workflow@v1
+        id: workflow-dispatch
+        name: 'dispatch workflow'
+        with:
+          dispatch-method: workflow_dispatch
+          repo: slattman
+          owner: slattman
+          ref: main
+          workflow: default.yml
+          token: ${{ github.token }}
