@@ -29,7 +29,11 @@ import fs from 'fs'
     upsertMap(topicMap, await getReposStarredByUser(octokit, owner))
     markdown.push(getTOCMarkdown(topicMap))
     for (const groupName of sortMapKeys(topicMap)) { markdown.push(getH2Markdown(groupName, topicMap.get(groupName))) }
-    [{ dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },{ dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },{ dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },{ dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }].map(async (svg) => await wget({url: svg.url, dest: svg.dest}))
+    [ { dest: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
+      { dest: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true&date_format=M%20j%5B%2C%20Y%5D` },
+      { dest: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
+      { dest: `.${test}/trophy.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
+    ].map(async (svg) => await wget({url: svg.url, dest: svg.dest}))
     fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
   }
 
@@ -61,9 +65,7 @@ import fs from 'fs'
         const existingArray = map.get(key)
         existingArray.push(repository)
         map.set(key, existingArray)
-      } else {
-        map.set(key, [repository])
-      }
+      } else map.set(key, [repository])
     }
   }
 
@@ -73,9 +75,7 @@ import fs from 'fs'
    * @param {Map<string, any>} map - The map to extract keys from.
    * @returns {string[]} An array of sorted keys.
    */
-  const sortMapKeys = (map) => {
-    return Array.from(map.keys()).sort((a, b) => a.localeCompare(b))
-  }
+  const sortMapKeys = (map) => { return Array.from(map.keys()).sort((a, b) => a.localeCompare(b)) }
 
   /**
    * Gets TOC Markdown string.
