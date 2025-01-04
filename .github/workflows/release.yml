@@ -56,7 +56,7 @@ jobs:
             await spawn.execSync('gh run list > runs')
             await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[1]" > id')
             const runs = await fs.readFileSync('runs').toString()
-            const id = await fs.readFileSync('databaseId').toString()
+            const id = await fs.readFileSync('id').toString()
             console.log(runs)
             console.log("selected id", id)
             await exec.exec(`gh run delete ${id}`)        
