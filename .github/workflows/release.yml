@@ -51,4 +51,5 @@ jobs:
           script: |
             const { owner, repo } = context.repo
             await exec.exec('gh', ['delete', '$(gh run list --json databaseId -q "map(.databaseId)[0]")']).catch((e) => console.log)
+
             
