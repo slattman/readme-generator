@@ -51,9 +51,9 @@ jobs:
           script: |
             const spawn = require('child_process');
             const fs = require('node:fs');
-            await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[0]" > databaseId').catch((e) => console.log) 
-            const databaseId = await fs.readFileSync('databaseId').catch((e) => console.log) 
+            await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[0]" > databaseId')
+            const databaseId = await fs.readFileSync('databaseId')
             console.log("databaseId", databaseId)
-            await spawn.execSync(`gh run delete ${databaseId}`).catch((e) => console.log)            
+            await spawn.execSync(`gh run delete ${databaseId}`)        
 
             
