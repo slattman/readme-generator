@@ -13,40 +13,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4.2.2
         name: Checkout
-      - uses: TriPSs/conventional-changelog-action@latest
-        name: Conventional Changelog Action
-        id: changelog
-        with:
-          github-token: ${{ github.token }}
       - uses: actions/github-script@v7.0.1
-        name: Delete latest release
+        name: delete latest release
         env:
           GH_TOKEN: ${{ github.token }}
         with:
           github-token: ${{ github.token }}
           script: |
-            const { owner, repo } = context.repo
-            await exec.exec('gh', ['release', 'delete', 'latest', '--cleanup-tag', '--yes']).catch((e) => console.log)
+            await exec.exec('gh release delete latest --cleanup-tag --yes')
       - uses: actions/create-release@latest
-        name: Create new release
+        name: create new release
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: latest
           release_name: latest
-          body: ${{ steps.changelog.outputs.clean_changelog }}
-      - uses: lasith-kg/dispatch-workflow@v2
-        id: workflow-dispatch
-        name: 'Dispatch workflow'
-        with:
-          dispatch-method: workflow_dispatch
-          repo: slattman
-          owner: slattman
-          ref: main
-          workflow: default.yml
-          token: ${{ secrets.DISPATCH_TOKEN }}
+          body: update
       - uses: actions/github-script@v7.0.1
-        name: Delete workflow runs
+        name: workflow
         env:
           GH_TOKEN: ${{ github.token }}
         with:
@@ -56,7 +40,7 @@ jobs:
             const fs = require('node:fs');
             await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[1]" > id')
             const id = await fs.readFileSync('id').toString()
-            await exec.exec('gh run list')
-            await exec.exec(`gh run delete ${id}`)        
-
+            await exec.exec(`gh run delete ${id}`)
+            await exec.exec(`gh repo set-default slattman/slattman`)
+            await exec.exec(`gh workflow run default.yml`)
             
