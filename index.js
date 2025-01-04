@@ -22,8 +22,9 @@ import * as fs from 'node:fs'
     await updateSvg()
     await updateMap()
     markdown.push(getTOCMarkdown())
-    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push(`\n<br /><sup>last (generated)[#generated] @ ${new Date().getUTCDate()} made with ❤️‍🔥</sup>`)
-    fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) }
+    markdown.push(`\n<br /><sup>last (generated)[#generated] @ ${new Date().getUTCDate()} made with ❤️‍🔥</sup>`)
+    await fs.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
     console.log("...done")
   }
 
@@ -66,7 +67,7 @@ import * as fs from 'node:fs'
     let result = []
     for await (const res of octokit.activity.listReposStarredByUser.all({ username })) {
       for (const repo of res.data) { result.push(repo) }
-    } if (test.length) { console.log(result) }
+    } //if (test.length) { console.log(result) }
     return result
   }
 
@@ -104,8 +105,7 @@ import * as fs from 'node:fs'
       `## [🔝 ✨ ${language}](#to-the-top)\n`,
       repos.map((repo) => {
         return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *[${repo.topics.map((topic) => { return ' [' + topic + '](https://github.com/topics/' + topic + ')' })} ]* - *last updated on ${new Date(repo.updated_at).toDateString()}*`
-      })
-    ].join('').replace(/,\n/g, '\n')
+      })].join('').replace(/,\n/g, '\n')
   }
 
 init()})()

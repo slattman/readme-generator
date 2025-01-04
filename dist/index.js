@@ -9534,8 +9534,9 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
     await updateSvg()
     await updateMap()
     markdown.push(getTOCMarkdown())
-    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push(`\n<br /><sup>last (generated)[#generated] @ ${new Date().getUTCDate()} made with ❤️‍🔥</sup>`)
-    external_node_fs_namespaceObject.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) }
+    markdown.push(`\n<br /><sup>last (generated)[#generated] @ ${new Date().getUTCDate()} made with ❤️‍🔥</sup>`)
+    await external_node_fs_namespaceObject.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
     console.log("...done")
   }
 
@@ -9578,7 +9579,7 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
     let result = []
     for await (const res of octokit.activity.listReposStarredByUser.all({ username })) {
       for (const repo of res.data) { result.push(repo) }
-    } if (test.length) { console.log(result) }
+    } //if (test.length) { console.log(result) }
     return result
   }
 
@@ -9616,8 +9617,7 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
       `## [🔝 ✨ ${language}](#to-the-top)\n`,
       repos.map((repo) => {
         return `\n - [${repo.full_name}](${repo.html_url}) - ${repo.description?.replace(/\n/g, '')} - *[${repo.topics.map((topic) => { return ' [' + topic + '](https://github.com/topics/' + topic + ')' })} ]* - *last updated on ${new Date(repo.updated_at).toDateString()}*`
-      })
-    ].join('').replace(/,\n/g, '\n')
+      })].join('').replace(/,\n/g, '\n')
   }
 
 init()})()
