@@ -49,8 +49,9 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            const databaseId = await exec.exec(`gh run list --json databaseId -q "map(.databaseId)[0]"`).catch((e) => console.log)
-            console.log("databaseId", databaseId)
-            await exec.exec(`gh run delete ${databaseId}`).catch((e) => console.log)
+            await exec.exec(`gh run list --json databaseId -q "map(.databaseId)[0]"`).then((databaseId) => {
+              console.log("databaseId", databaseId)
+              await exec.exec(`gh run delete ${databaseId}`).catch((e) => console.log)
+            }).catch((e) => console.log)
 
             
