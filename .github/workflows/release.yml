@@ -50,9 +50,10 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
+            const spawn = require('child_process');
             const fs = require('node:fs');
             await exec.exec('gh run list')
-            await exec.exec('gh run list --json databaseId -q "map(.databaseId)[1]" > id')
+            await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[1]" > id')
             const runs = await fs.readFileSync('runs').toString()
             const id = await fs.readFileSync('databaseId').toString()
             console.log(runs)
