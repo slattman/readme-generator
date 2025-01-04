@@ -9518,8 +9518,9 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
   const map = new Map()
   const octokit = simple_octokit(process.env.GITHUB_TOKEN)
   const owner = process.env.OWNER
-  const test = process.env.TEST
-  const markdown = [`<div id="to-the-top" align="center"><img width="47%" src="stats.svg" />
+  const test = process.env.TEST ?? ''
+  const markdown = [`
+  <div id="to-the-top" align="center"><img width="47%" src="stats.svg" />
   &nbsp;
   <img width="50%" src="streak.svg" /><img width="57%" src="activity.svg" >
   &nbsp;
@@ -9533,7 +9534,7 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
     await updateSvg()
     await updateMap()
     markdown.push(getTOCMarkdown())
-    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push('\n<br /><sup>made with ❤️‍🔥</sup>')
+    for (const language of sortedMapKeys()) { markdown.push(getH2Markdown(language)) } markdown.push(`\n<br /><sup>last (generated)[#generated] @ ${new Date().getUTCDate()} made with ❤️‍🔥</sup>`)
     external_node_fs_namespaceObject.writeFileSync(`.${test}/README.md`, markdown.join('\n\n'))
     console.log("...done")
   }
@@ -9542,16 +9543,15 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
    * Get SVGs
    */
   const updateSvg = async () => {
-    [ { name: `stats`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
-      { name: `streak`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true` },
-      { name: `activity`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
-      { name: `trophies`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
+    [ { name: `.${test}/stats.svg`, url: `https://github-readme-stats.vercel.app/api?username=${owner}&theme=react&show_icons=true&rank_icon=github&count_private=true&hide_border=true&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR` },
+      { name: `.${test}/streak.svg`, url: `https://streak-stats.demolab.com?user=${owner}&theme=react&hide_border=true` },
+      { name: `.${test}/activity.svg`, url: `https://github-readme-activity-graph.vercel.app/graph?username=${owner}&theme=react&radius=50&hide_border=true&hide_title=false&area=true&custom_title=Total%20contribution%20graph%20in%20all%20repo` },
+      { name: `.${test}/trophies.svg`, url: `https://github-profile-trophy.vercel.app/?username=${owner}&theme=discord&no-frame=true&row=2&column=4` }
     ].map(async (svg) => {
-      if (!test.length) {
-        await external_child_process_namespaceObject.execSync(`curl -so ${svg.name}.svg.new "${svg.url}"`)
-        if (await external_node_fs_namespaceObject.readFileSync(`${svg.name}.svg.new`).length) await external_child_process_namespaceObject.execSync(`mv ${svg.name}.svg.new ${svg.name}.svg`)
-        if (await external_node_fs_namespaceObject.existsSync(`${svg.name}.svg.new`)) await external_child_process_namespaceObject.execSync(`rm ${svg.name}.svg.new`)
-      }
+      if (test.length) return
+      await external_child_process_namespaceObject.execSync(`curl -so ${svg.name}.new "${svg.url}"`)
+      if (await external_node_fs_namespaceObject.readFileSync(`${svg.name}.new`).length) await external_child_process_namespaceObject.execSync(`mv ${svg.name}.new ${svg.name}`)
+      if (await external_node_fs_namespaceObject.existsSync(`${svg.name}.new`)) await external_child_process_namespaceObject.execSync(`rm ${svg.name}.new`)
     })
   }
 
@@ -9578,7 +9578,7 @@ const external_node_fs_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import
     let result = []
     for await (const res of octokit.activity.listReposStarredByUser.all({ username })) {
       for (const repo of res.data) { result.push(repo) }
-    } //if (test.length) { console.log(result) }
+    } if (test.length) { console.log(result) }
     return result
   }
 
