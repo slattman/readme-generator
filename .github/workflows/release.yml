@@ -53,7 +53,7 @@ jobs:
             const spawn = require('child_process');
             const fs = require('node:fs');
             await spawn.execSync('gh run list > runs')
-            await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[0]" > databaseId')
+            await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[1]" > databaseId')
             const runs = await fs.readFileSync('runs').toString()
             const databaseId = await fs.readFileSync('databaseId').toString()
             console.log(runs)
