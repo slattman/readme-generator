@@ -51,7 +51,7 @@ jobs:
           script: |
             const spawn = require('child_process');
             const fs = require('node:fs');
-            await spawn.execSync('gh run list)
+            await spawn.execSync('gh run list')
             await spawn.execSync('gh run list --json databaseId -q "map(.databaseId)[0]" > databaseId')
             const databaseId = await fs.readFileSync('databaseId').toString()
             console.log("selected databaseId", databaseId)
